@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import config from "./../config/index.js";
 
-export const generateToken = (userId) => {
-    const token = jwt.sign({userId}, config.APP_SECRET_KEY,{expiresIn:'1h'});
+export const generateToken = ({id, username}) => {
+    const jwtPayload = {id, username};
+    const token = jwt.sign(jwtPayload, config.APP_SECRET_KEY,{expiresIn:'1h'});
     return token;
 };
 
