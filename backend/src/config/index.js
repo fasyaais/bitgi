@@ -2,7 +2,8 @@ const config =  {
     "APP_NAME": process.env.APP_NAME || "Bitgi",
     "APP_HOST": process.env.APP_HOST || "localhost",
     "APP_PORT": process.env.APP_PORT || "8000",
-    "APP_SECRET_KEY": process.env.APP_SECRET_KEY || "secret_key",
+    "APP_SECRET_KEY": process.env.APP_SECRET_KEY || "1CIT_K3333eY",
+    "FRONTEND_URL": process.env.FRONTEND_URL || "http://127.0.0.1:5173",
 
     "DB_CONNECTION": process.env.DB_CONNECTION || "mysql",
     "DB_HOST": process.env.DB_HOST || "localhost",
