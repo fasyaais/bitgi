@@ -7,7 +7,7 @@ class SocketService {
     constructor(httpServer){
         this.io = new Server(httpServer,{
             cors : {
-                origin: config.FRONTEND_URL,
+                origin: ['*'],
                 methods: ["GET","POST"]
             },
         });

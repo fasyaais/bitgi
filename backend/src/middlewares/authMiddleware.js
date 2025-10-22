@@ -2,7 +2,7 @@ import { verifyToken } from "../utils/jwtUtil.js";
 
 export default (req,res,next) => {
     const authToken = req.headers.authorization;
-    if(!authToken || !authToken.startsWith('Bearer ')){
+    if(!authToken || !authToken.startsWith("Bearer ")){
         return res.status(401).json({message:"Access Denial"});
     }
     const token = authToken.split(' ')[1];
@@ -10,6 +10,6 @@ export default (req,res,next) => {
     if(!payload){
         return res.status(401).json({message:"Access Denial"});
     };
-    req.userId = payload.userId;
+    req.userId = payload.id;
     next()
 };

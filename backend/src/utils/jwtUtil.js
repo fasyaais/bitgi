@@ -10,7 +10,7 @@ export const generateToken = ({id, username}) => {
 export const verifyToken = (token) => {
     try {
         const decode = jwt.verify(token,config.APP_SECRET_KEY);
-        return decode.userId;
+        return decode;
     } catch (error) {
         return null;
     }
