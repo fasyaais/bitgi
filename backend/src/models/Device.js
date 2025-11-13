@@ -4,17 +4,16 @@ export default (sequelize) => {
     const device = sequelize.define('Device',
         {
             id: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 primaryKey: true,
-                autoIncrement: true,
             },
             user_id : {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
             },
             name : {
                 type: DataTypes.STRING,
-                allowNull: false,
+                allowNull: true,
             },
             token : {
                 type: DataTypes.STRING,
@@ -27,20 +26,16 @@ export default (sequelize) => {
             is_online : {
                 type: DataTypes.BOOLEAN,
                 defaultValue:false,
-                allowNull: false,
+                allowNull: true,
             },
             last_seen : {
-                type: DataTypes.STRING,
-                allowNull: false,
+                type: DataTypes.TIME,
+                allowNull: true,
             },
             qr_code : {
                 type: DataTypes.STRING,
-                allowNull: false,
-            },
-            last_seen : {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
+                allowNull: true,
+            }
         }, {
             tableName:'devices',
         }
