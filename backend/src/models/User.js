@@ -20,6 +20,10 @@ export default function (sequelize) {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            role : {
+                type: DataTypes.STRING,
+                defaultValue: "user",
+            }
         }, {
             tableName:'users',
         }

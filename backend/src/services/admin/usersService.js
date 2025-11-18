@@ -1,4 +1,4 @@
-import db from "../models/index.js";
+import db from "../../models/index.js";
 import bcrypt from "bcrypt";
 
 export const getAllUsers = async () => {
@@ -7,19 +7,23 @@ export const getAllUsers = async () => {
   });
 };
 
-// export const createUsers = async ({ fullname, username, password }) => {
-//   const alreadyUser = await db.User.findOne({ where: { username } });
-//   if (alreadyUser) {
-//     throw new Error("Username already taken");
-//   }
-//   const hashedPassword = await bcrypt.hash(password, 10);
-//   const user = await db.User.create({
-//     fullname,
-//     username,
-//     password: hashedPassword,
-//   });
-//   return user;
-// };
+export const showUser = async (id) => {
+  return await db.User.findByPk(id);
+}
+
+export const createUsers = async ({ fullname, username, password }) => {
+  const alreadyUser = await db.User.findOne({ where: { username } });
+  if (alreadyUser) {
+    throw new Error("Username already taken");
+  }
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user = await db.User.create({
+    fullname,
+    username,
+    password: hashedPassword,
+  });
+  return user;
+};
 
 export const updateUsers = async (id, { fullname, username, password }) => {
   const user = await db.User.findByPk(id);

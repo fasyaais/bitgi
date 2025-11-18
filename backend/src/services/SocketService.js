@@ -22,11 +22,11 @@ class SocketService {
     __authMiddleware(){
         this.io.use(async (socket,next) => {
             try {
-                const token = socket.handshake.headers.authorization?.split("Bearer ")[1];
+                const token = socket.handshake.auth?.token;
                 const decode = verifyToken(token);
                 const userId = decode.id
                 const user = await db.User.findByPk(userId);
-                if(user){
+                if(!user){
                     throw new Error("Authentication error");
                 }
                 socket.userId = userId;
@@ -40,7 +40,7 @@ class SocketService {
     __connectionHandler(){
         this.io.on("connection", async (socket) => {
             console.log(`[WS] User ${socket.userId} connected`);
-            socket.join(`user:${socket.userId}`);
+            // socket.join(`user:${socket.userId}`);
 
             socket.on("join", (roomName) => {
                 if(roomName.startsWith("device:")){
@@ -51,12 +51,14 @@ class SocketService {
                                 socket.emit("error",{message:"Device not found or unauthorized"});
                                 return;
                             }
+                            
                             socket.join(roomName);
                             socket.emit("joined",roomName);
                         }).catch(err => {
                             socket.emit("error",{message:"Server error"});
                         });
                 } else if(roomName.startsWith("sensor:")){
+                    console.info(roomName);
                     const parts =roomName.split(":")
                     const deviceId = parts[1];
                     db.Device.findOne({ where: { id: deviceId, user_id: socket.userId } })

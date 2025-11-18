@@ -1,14 +1,18 @@
 import mqtt from 'mqtt'
 import config from '../config/index.js';
 import db from '../models/index.js';
+import { timeStamp } from 'node:console';
 class MqttService {
     constructor(io){
         this.io = io;
-        const url = `${config.MQTT_PROTOCOL}://${config.MQTT_URL}`
+        const url = `${config.MQTT_PROTOCOL}://${config.MQTT_URL}`;
         this.client = mqtt.connect(url,{
             username: config.MQTT_USERNAME,
             password: config.MQTT_PASSWORD
-        })
+        });
+
+        this.client.subscribe('device/+/+/+');
+        this.client.subscribe('device/+/actuator/+/status');
     }
 
     init(){
@@ -33,13 +37,15 @@ class MqttService {
                     userId,
                     level,
                     type,
-                    payload
+                    payload,
+                    timestamp : new Date()
                 }
+                console.log(basePayload);
 
                 this.io.to(`user:${userId}`).emit("sensor:update",basePayload);
                 this.io.to(`device:${deviceId}`).emit(`sensor:update`,basePayload);
                 if(level == "sensor") {
-                    this.io.to(`sensor:${deviceId}:${type}`).to("sensor:update",basePayload);
+                    this.io.to(`sensor:${deviceId}:${type}`).emit("sensor:update",basePayload);
                 } else if(level == "actuator"){
                     this.io.to(`actuator:${deviceId}:${type}`).emit("actuator:status",basePayload);
                 }
