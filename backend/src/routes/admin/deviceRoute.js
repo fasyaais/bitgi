@@ -1,10 +1,10 @@
 import express from "express";
-import validate from "../middlewares/validate.js";
+import validate from "../../middlewares/validate.js";
 import {
   createQrcode,
   registerDevice,
   updateDevice,
-} from "../validators/deviceValidator.js";
+} from "../../validators/deviceValidator.js";
 import {
   addDeviceController,
   generateQrcodeController,
@@ -12,7 +12,7 @@ import {
   getDeviceByIdController,
   updateDeviceController,
   deleteDeviceController,
-} from "../controllers/deviceController.js";
+} from "../../controllers/deviceController.js";
 const router = express.Router();
 
 router.post("/", validate(registerDevice), addDeviceController);
@@ -24,6 +24,5 @@ router.get("/:id", getDeviceByIdController);
 router.put("/:id", validate(updateDevice), updateDeviceController);
 //hapus device
 router.delete("/:id", deleteDeviceController);
-
 
 export default router;

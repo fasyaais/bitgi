@@ -1,0 +1,44 @@
+import { errorResponse, successResponse } from "../utils/response.js";
+import {
+  getAllUsers,
+  updateUsers,
+  deleteUsers,
+} from "../services/usersService.js";
+import { registerService } from "../services/authService.js";
+
+export const getAllUsersController = async (req, res) => {
+  try {
+    const data = await getAllUsers();
+    return successResponse(res, data, "Successfuly get all users");
+  } catch (error) {
+    return errorResponse(res, error.message);
+  }
+};
+
+export const createUsersController = async (req, res) => {
+  try {
+    const data = await registerService(req.body);
+    return successResponse(res, data, "Successfuly register new user", 201);
+  } catch (error) {
+    return errorResponse(res, error.message);
+  }
+};
+
+export const updateUsersController = async (req, res) => {
+  try {
+    console.log(req.params.id);
+    const data = await updateUsers(req.params.id, req.body);
+    return successResponse(res, data, "Successfuly update user");
+  } catch (error) {
+    return errorResponse(res, error.message);
+  }
+};
+
+export const deleteUsersController = async (req, res) => {
+  try {
+    const data = await deleteUsers(req.params.id);
+    return successResponse(res, data, "Successfuly delete user");
+  } catch (error) {
+    return errorResponse(res, error.message);
+  }
+};
