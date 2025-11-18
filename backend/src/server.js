@@ -5,14 +5,14 @@ import db from './models/index.js';
 import { connectDB } from './config/database.js';
 import { createServer } from "node:http";
 import SocketService from './services/SocketService.js';
-import mqttService from './services/MqttService.js';
+import MqttService from './services/MqttService.js';
 
 const server = createServer(app);
 
 const startServer = async () =>{
     await connectDB()
     await db.sync();
-    const mqttService = new mqttService(null);
+    const mqttService = new MqttService(null);
     const socketService = new SocketService(server);
     socketService.init();
     const io = socketService.getIO();

@@ -1,11 +1,11 @@
 import mqtt from 'mqtt'
-import config from '../config';
-import db from '../models';
+import config from '../config/index.js';
+import db from '../models/index.js';
 class MqttService {
     constructor(io){
         this.io = io;
         const url = `${config.MQTT_PROTOCOL}://${config.MQTT_URL}`
-        this.client = mqtt.connect(config.MQTT_URL,{
+        this.client = mqtt.connect(url,{
             username: config.MQTT_USERNAME,
             password: config.MQTT_PASSWORD
         })
@@ -22,7 +22,7 @@ class MqttService {
                 const level = parts[2];
                 const type = parts[3];
 
-                const device = db.Device.findByPk(deviceId);
+                const device = await db.Device.findByPk(deviceId);
                 if(!device){
                     console.log("[MQTT] Device not found ", deviceId);
                 }
@@ -51,3 +51,5 @@ class MqttService {
         });
     }
 }
+
+export default MqttService
