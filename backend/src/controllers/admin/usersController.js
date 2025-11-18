@@ -1,10 +1,11 @@
-import { errorResponse, successResponse } from "../utils/response.js";
+import { errorResponse, successResponse } from "../../utils/response.js";
 import {
   getAllUsers,
   updateUsers,
   deleteUsers,
-} from "../services/usersService.js";
-import { registerService } from "../services/authService.js";
+  createUsers,
+  showUser,
+} from "../../services/admin/usersService.js";
 
 export const getAllUsersController = async (req, res) => {
   try {
@@ -14,10 +15,18 @@ export const getAllUsersController = async (req, res) => {
     return errorResponse(res, error.message);
   }
 };
+export const getUserController = async (req, res) => {
+  try {
+    const data = await showUser(req.params.id);
+    return successResponse(res, data, "Successfuly get all users");
+  } catch (error) {
+    return errorResponse(res, error.message);
+  }
+};
 
 export const createUsersController = async (req, res) => {
   try {
-    const data = await registerService(req.body);
+    const data = await createUsers(req.body);
     return successResponse(res, data, "Successfuly register new user", 201);
   } catch (error) {
     return errorResponse(res, error.message);
@@ -26,7 +35,6 @@ export const createUsersController = async (req, res) => {
 
 export const updateUsersController = async (req, res) => {
   try {
-    console.log(req.params.id);
     const data = await updateUsers(req.params.id, req.body);
     return successResponse(res, data, "Successfuly update user");
   } catch (error) {

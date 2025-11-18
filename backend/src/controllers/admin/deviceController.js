@@ -1,14 +1,30 @@
-import { errorResponse, successResponse } from "./../utils/response.js";
-import {getAllDeviceUser, getDeviceUser} from "./../services/deviceService.js";
+import { errorResponse, successResponse } from "../../utils/response.js";
+import {
+  createQrCode,
+  registerDevice,
+  getAllDevices,
+  getDeviceById,
+  updateDevice,
+  deleteDevice,
+} from "../../services/admin/deviceService.js";
 
-// Get All Devices by User
-export const getAllDeviceUserController = async (req, res) => {
+export const generateQrcodeController = async (req, res) => {
   try {
-    const data = await getAllDeviceUser(req.userId);
-    if(data.length == 0){
-        return errorResponse(res, "Not found device",404);
+    const data = await createQrCode(req.body);
+    return successResponse(res, data, "Successfuly to create Qrcode");
+  } catch (error) {
+    return errorResponse(res, error.message);
+  }
+};
+
+// Get All Devices
+export const getAllDevicesController = async (req, res) => {
+  try {
+    const data = await getAllDevices();
+    if (data.length == 0){
+      return errorResponse(res,"Not found",404);
     }
-    return successResponse(res, data, "Successfuly get all device user");
+    return successResponse(res, data, "Successfuly get all devices");
   } catch (error) {
     return errorResponse(res, error.message);
   }
@@ -17,10 +33,7 @@ export const getAllDeviceUserController = async (req, res) => {
 // Get Device By Id
 export const getDeviceByIdController = async (req, res) => {
   try {
-    const data = await getDeviceUser(req.params.id,req.userId);
-    if(!data){
-        return errorResponse(res,"Not found device",404)
-    }
+    const data = await getDeviceById(req.params.id);
     return successResponse(res, data, "Successfuly get device by id");
   } catch (error) {
     return errorResponse(res, error.message);

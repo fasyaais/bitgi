@@ -12,17 +12,15 @@ import {
   getDeviceByIdController,
   updateDeviceController,
   deleteDeviceController,
-} from "../../controllers/deviceController.js";
+} from "../../controllers/admin/deviceController.js";
 const router = express.Router();
 
 router.post("/", validate(registerDevice), addDeviceController);
 router.post("/qrcode", validate(createQrcode), generateQrcodeController);
 
-router.get("/all", getAllDevicesController);
+router.get("/", getAllDevicesController);
 router.get("/:id", getDeviceByIdController);
-// update device
 router.put("/:id", validate(updateDevice), updateDeviceController);
-//hapus device
 router.delete("/:id", deleteDeviceController);
 
 export default router;
