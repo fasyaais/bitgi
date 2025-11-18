@@ -25,4 +25,5 @@ router.put("/:id", validate(updateDevice), updateDeviceController);
 //hapus device
 router.delete("/:id", deleteDeviceController);
 
+
 export default router;

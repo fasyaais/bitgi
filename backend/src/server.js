@@ -5,15 +5,19 @@ import db from './models/index.js';
 import { connectDB } from './config/database.js';
 import { createServer } from "node:http";
 import SocketService from './services/SocketService.js';
+import mqttService from './services/MqttService.js';
 
 const server = createServer(app);
 
 const startServer = async () =>{
     await connectDB()
     await db.sync();
+    const mqttService = new mqttService(null);
     const socketService = new SocketService(server);
     socketService.init();
     const io = socketService.getIO();
+    mqttService.io = io;
+    mqttService.init();
 
     server.listen(config.APP_PORT,()=>{
         console.log(`Server running on http://${config.APP_HOST+":"+config.APP_PORT}`);
