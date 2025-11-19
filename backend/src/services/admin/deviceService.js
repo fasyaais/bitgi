@@ -9,7 +9,7 @@ import config from "../../config/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const currentDir = path.dirname(__filename);
-const __dirname = path.join(currentDir, "..", "..");
+const __dirname = path.join(currentDir, "..", "..","..");
 
 // Get All Device
 export const getAllDevices = async () => {
@@ -95,6 +95,7 @@ export const createQrCode = async ({ device_id, token }) => {
   const dataToString = JSON.stringify(dataQrCode);
 
   try {
+    console.log(imageDirPath);
     const result = await generateQrCode(filePath, dataToString, fileName);
     await db.Device;
     return result;
