@@ -11,7 +11,7 @@ import {
 export const generateQrcodeController = async (req, res) => {
   try {
     const data = await createQrCode(req.body);
-    return successResponse(res, data, "Successfuly to create Qrcode");
+    return successResponse(res, data, "Successfuly to create Qrcode",201);
   } catch (error) {
     return errorResponse(res, error.message);
   }
