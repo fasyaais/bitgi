@@ -15,7 +15,9 @@ export const loginService = async ({username,password}) => {
     return {
         id: user.id,
         token,
+        fullname: user.fullname,
         username: user.username,
+        role: user.role
     };
 };
 
