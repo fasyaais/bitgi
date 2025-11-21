@@ -40,8 +40,7 @@ class MqttService {
                     payload,
                     timestamp : new Date()
                 }
-                console.log(basePayload);
-
+                
                 this.io.to(`user:${userId}`).emit("sensor:update",basePayload);
                 this.io.to(`device:${deviceId}`).emit(`sensor:update`,basePayload);
                 if(level == "sensor") {
@@ -55,6 +54,11 @@ class MqttService {
                 console.log("[MQTT] Error handling mqtt message ", error);
             }
         });
+    }
+
+    publishControl(deviceId, actuator,command){
+        const topic = `device/${deviceId}/actuator/${actuator}/command`;
+        
     }
 }
 

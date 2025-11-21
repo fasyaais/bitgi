@@ -4,5 +4,6 @@
 /backend/bun.lock
 /package-lock.json
 /backend/public
+/backend/public/*
 /frontend/*
 /bun.lock
