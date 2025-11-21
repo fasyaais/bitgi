@@ -64,6 +64,7 @@ export const registerDevice = async ({ type }) => {
     throw Error("Device existing");
   }
 
+
   const token = crypto.randomBytes(32).toString("hex");
   const data = await db.Device.create({
     id,
@@ -96,25 +97,13 @@ export const createQrCode = async ({ device_id, token }) => {
 
   try {
     const result = await generateQrCode(filePath, dataToString, fileName);
-    await db.Device;
+    await data.update({
+      qr_code : result.image_url
+    });
     return result;
   } catch (error) {
-    throw Error(error);
+    throw error;
   }
-};
-
-export const registerService = async ({ username, fullname, password }) => {
-  const alreadyUser = await db.User.findOne({ where: { username } });
-  if (alreadyUser) {
-    throw new Error("Username already taken");
-  }
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await db.User.create({
-    username,
-    fullname,
-    password: hashedPassword,
-  });
-  return user;
 };
 
 const generateQrCode = (filePath, data, fileName) => {

@@ -1,5 +1,5 @@
 import { errorResponse, successResponse } from "./../utils/response.js";
-import {getAllDeviceUser, getDeviceUser} from "./../services/deviceService.js";
+import {addDeviceService, getAllDeviceUser, getDeviceUser} from "./../services/deviceService.js";
 
 // Get All Devices by User
 export const getAllDeviceUserController = async (req, res) => {
@@ -49,8 +49,9 @@ export const deleteDeviceController = async (req, res) => {
 
 export const addDeviceController = async (req, res) => {
   try {
-    const data = await registerDevice(req.body);
-    return successResponse(res, data, "Successfuly register new device", 201);
+    const {device_id,user_id,token,name} = req.body;
+    const data = await addDeviceService(device_id,token,user_id,name);
+    return successResponse(res, data, "Successfuly add new device", 201);
   } catch (error) {
     return errorResponse(res, error.message);
   }

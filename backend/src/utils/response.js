@@ -10,6 +10,6 @@ export const successResponse = (res, data, message,statusCode= 200) => {
 export const errorResponse = (res, message, statusCode= 500) => {
     return res.status(statusCode).json({
         status: 'error',
-        message,
+        message:message,
     });
 }

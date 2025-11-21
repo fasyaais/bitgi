@@ -9,6 +9,13 @@ const registerDevice = Joi.object({
   type: Joi.string().required(),
 });
 
+const addDevice = Joi.object({
+  name: Joi.string().required(),
+  user_id: Joi.number().required(),
+  device_id: Joi.string().required(),
+  token: Joi.string().required(),
+});
+
 const updateDevice = Joi.object({
   user_id: Joi.number().optional(),
   name: Joi.string().optional(),
@@ -19,4 +26,6 @@ const updateDevice = Joi.object({
   qr_code: Joi.string().optional(),
 }).min(1);
 
-export { registerDevice, createQrcode, updateDevice };
+
+
+export { registerDevice, createQrcode, updateDevice,addDevice };
