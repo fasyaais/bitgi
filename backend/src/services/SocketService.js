@@ -80,16 +80,16 @@ class SocketService {
 
             socket.on("control-actuator", async ({ deviceId, actuator, command }) => {
                 try {
-                const device = await db.Device.findOne({ where: { id: deviceId, user_id: socket.userId } });
-                if (!device) {
-                    return socket.emit("error", { message: "Device not found or unauthorized" });
-                }
-                this.mqttService.publishControl(deviceId, actuator, command);
+                    const device = await db.Device.findOne({ where: { id: deviceId, user_id: socket.userId } });
+                    if (!device) {
+                        return socket.emit("error", { message: "Device not found or unauthorized" });
+                    }
+                    this.mqttService.publishControl(deviceId, actuator, command);
 
-                socket.emit("control-sent", { deviceId, actuator, command });
+                    socket.emit("control-sent", { deviceId, actuator, command });
                 } catch (err) {
-                console.error("control-actuator error:", err);
-                socket.emit("error", { message: "Failed to send control command" });
+                    console.error("control-actuator error:", err);
+                    socket.emit("error", { message: "Failed to send control command" });
                 }
             });
 
