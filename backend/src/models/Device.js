@@ -20,7 +20,7 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      type: {
+      type_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

@@ -65,7 +65,7 @@ export const registerDevice = async ({ type }) => {
   const data = await db.Device.create({
     id,
     token,
-    type: typeId,
+    type_id: typeId,
   });
 
   return { device_id: data.id, token: data.token };

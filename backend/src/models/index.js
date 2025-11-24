@@ -13,10 +13,14 @@ db.Device = Device(sequelize);
 db.Sensor = Sensor(sequelize);
 db.Actuator = Actuator(sequelize);
 
-db.Device.belongsTo(db.Type, { foreignKey: 'type' });
-db.Device.belongsTo(db.User, { foreignKey: 'user_id' });
-db.Type.hasMany(db.Device,{ foreignKey: 'type' });
-db.User.hasMany(db.Device,{ foreignKey: 'user_id' });
+db.Device.belongsTo(db.Type, { 
+    foreignKey: 'type_id',
+    as: 'type' ,
+    
+});
+db.Device.belongsTo(db.User, { foreignKey: 'user_id', as:"user" });
+db.Type.hasMany(db.Device,{ foreignKey: 'type_id', as: "devices" });
+db.User.hasMany(db.Device,{ foreignKey: 'user_id',as: "devices" });
 
 db.sequelize = sequelize;
 

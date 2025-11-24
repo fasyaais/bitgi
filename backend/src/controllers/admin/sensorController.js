@@ -25,13 +25,8 @@ export const show = async (req, res) => {
 // CREATE
 export const store = async (req, res) => {
   try {
-    const { name } = req.body
 
-    if (!name) {
-      return errorResponse(res, "Name is required", 400)
-    }
-
-    const data = await SensorService.addSensor(name)
+    const data = await SensorService.addSensor(req.body)
     return successResponse(res, data, "Sensor created successfully", 201)
   } catch (error) {
     return errorResponse(res, error.message, 500)
