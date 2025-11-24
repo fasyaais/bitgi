@@ -16,11 +16,13 @@ export const getSensorById = async (id) => {
   return sensor
 }
 
-// CREATE SENSOR
-export const addSensor = async (name) => {
-  if (!name) throw new Error("Name is required")
+export const addSensor = async ({topic,name}) => {
+  const found = await db.Sensor.findOne({where:{topic,name}});
+  if(found){
+    throw new Error("Already sensor");
+  }
 
-  return await db.Sensor.create({ name })
+  return await db.Sensor.create({ topic, name });
 }
 
 // UPDATE SENSOR

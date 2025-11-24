@@ -16,26 +16,36 @@ export const getTypeById = async (id) => {
 }
 
 export const addType = async ({ name, actuator, sensor }) => {
-  if (!name) throw new Error("Name is required")
-
-
   const actuatorChecks = actuator.map(async (e) => {
-    const found = await checkActuator(e.name)
+    const found = await checkActuator(e)
     if(!found){
-      throw new Error(`Actuator not found: ${e.name}`);
+      throw new Error(`Actuator id ${e} not found`);
     }
+    return found
   })
-  
-  await Promise.all(actuatorChecks);
+  const foundActuators = await Promise.all(actuatorChecks);
+  actuator = foundActuators.map(actuatorItem => ({
+    id: actuatorItem.id,
+    name: actuatorItem.name,
+    topic: actuatorItem.topic
+  }));
+
   
   const sensorChecks = sensor.map(async (e) => {
-    const found = await checkSensor(e.name)
+    const found = await checkSensor(e)
     if(!found){
-      throw new Error(`Sensor not found: ${e.name}`);
+      throw new Error(`Sensor id ${e} not found`);
     }
+    return found
   })
+  
+  const foundSensors = await Promise.all(sensorChecks);
 
-  await Promise.all(sensorChecks);
+  sensor = foundSensors.map(sensorItem => ({
+    id: sensorItem.id,
+    name: sensorItem.name,
+    topic: sensorItem.topic
+  }));
 
   return await db.Type.create({
     name,
@@ -43,8 +53,7 @@ export const addType = async ({ name, actuator, sensor }) => {
     sensor: sensor || null,
   })
 }
-
-// UPDATE TYPE
+// UPDATE
 export const updateType = async (id, payload) => {
   const type = await db.Type.findByPk(id)
   console.log(payload);
@@ -54,24 +63,36 @@ export const updateType = async (id, payload) => {
 
   if(payload.sensor){
     const sensorChecks = payload.sensor.map(async (e) => {
-      const found = await checkSensor(e.name)
+      const found = await checkSensor(e)
       if(!found){
-        throw new Error(`Sensor not found: ${e.name}`);
+        throw new Error(`Sensor id ${e} not found`);
       }
+      return found
     })
+    
+    const foundSensors = await Promise.all(sensorChecks);
 
-    await Promise.all(sensorChecks);
+    payload.sensor = foundSensors.map(sensorItem => ({
+      id: sensorItem.id,
+      name: sensorItem.name,
+      topic: sensorItem.topic
+    }));
   }
 
   if(payload.actuator){
     const actuatorChecks = payload.actuator.map(async (e) => {
-      const found = await checkActuator(e.name)
+      const found = await checkActuator(e)
       if(!found){
-        throw new Error(`Actuator not found: ${e.name}`);
+        throw new Error(`Actuator id ${e} not found`);
       }
+      return found
     })
-    
-    await Promise.all(actuatorChecks);
+    const foundActuators = await Promise.all(actuatorChecks);
+    payload.actuator = foundActuators.map(actuatorItem => ({
+      id: actuatorItem.id,
+      name: actuatorItem.name,
+      topic: actuatorItem.topic
+    }));
   }
 
   await type.update(payload)
@@ -90,9 +111,9 @@ export const deleteType = async (id) => {
 }
 
 
-async function checkActuator(name) {
-  return db.Actuator.findOne({where: {name}});
+async function checkActuator(id) {
+  return db.Actuator.findByPk(id,{attributes: ['id','name','topic']});
 }
-async function checkSensor(name) {
-  return db.Sensor.findOne({where: {name}});
+async function checkSensor(id) {
+  return db.Sensor.findByPk(id,{attributes: ['id','name','topic']});
 }

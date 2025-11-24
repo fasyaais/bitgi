@@ -14,11 +14,19 @@ export default function (sequelize) {
             },
             actuator: {
                 type: DataTypes.JSON(),
-                allowNull: true
+                allowNull: true,
+                // get() {
+                //     const value = this.getDataValue('actuator');
+                //     return JSON.parse(value);
+                // }
             },
             sensor: {
                 type: DataTypes.JSON(),
-                allowNull: true
+                allowNull: true,
+                // get() {
+                //     const value = this.getDataValue('sensor');
+                //     return JSON.parse(value);
+                // }
             }
         }, {
             tableName:'types'

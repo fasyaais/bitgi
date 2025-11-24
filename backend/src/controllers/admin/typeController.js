@@ -23,7 +23,6 @@ export const getTypeById = async (req, res) => {
 export const addType = async (req, res) => {
   try {
     const { name, actuator, sensor } = req.body
-
     const data = await TypeService.addType({
       name,
       actuator,

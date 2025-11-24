@@ -17,10 +17,9 @@ export const getActuatorById = async (id) => {
 }
 
 // CREATE
-export const addActuator = async (name) => {
-  if (!name) throw new Error("Name is required")
-
-  return await db.Actuator.create({ name })
+export const addActuator = async ({name, topic}) => {
+  const found = await db.Actuator.findOne({where:{name,topic}})
+  return await db.Actuator.create({name,topic})
 }
 
 // UPDATE

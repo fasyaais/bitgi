@@ -12,6 +12,10 @@ export default (sequelize) => {
       name: {
           type:DataTypes.STRING(50),
           allowNull: false
+      },
+      topic : {
+        type: DataTypes.STRING(50),
+        allowNull: false
       }
     },
     {
