@@ -41,5 +41,5 @@ export const deleteUsers = async (id) => {
     throw new Error("User not found");
   }
   await user.destroy();
-  return user;
+  return null;
 };

@@ -1,7 +1,6 @@
 import { errorResponse, successResponse } from "./../utils/response.js";
-import {addDeviceService, getAllDeviceUser, getDeviceUser} from "./../services/deviceService.js";
+import {addDeviceService, deleteDeviceService, getAllDeviceUser, getDeviceUser, updateDeviceService} from "./../services/deviceService.js";
 
-// Get All Devices by User
 export const getAllDeviceUserController = async (req, res) => {
   try {
     const data = await getAllDeviceUser(req.userId);
@@ -14,7 +13,6 @@ export const getAllDeviceUserController = async (req, res) => {
   }
 };
 
-// Get Device By Id
 export const getDeviceByIdController = async (req, res) => {
   try {
     const data = await getDeviceUser(req.params.id,req.userId);
@@ -27,21 +25,19 @@ export const getDeviceByIdController = async (req, res) => {
   }
 };
 
-// Update Device
 export const updateDeviceController = async (req, res) => {
   try {
-    const data = await updateDevice(req.params.id, req.body);
+    const data = await updateDeviceService(req.params.id, req.body, req.userId);
     return successResponse(res, data, "Successfuly update device");
   } catch (error) {
     return errorResponse(res, error.message);
   }
 };
 
-// Delete Device
 export const deleteDeviceController = async (req, res) => {
   try {
-    const data = await deleteDevice(req.params.id);
-    return successResponse(res, data, "Successfuly delete device");
+    const data = await deleteDeviceService(req.params.id,req.userId);
+    return successResponse(res, data, "Successfuly delete device from user");
   } catch (error) {
     return errorResponse(res, error.message);
   }
@@ -49,8 +45,8 @@ export const deleteDeviceController = async (req, res) => {
 
 export const addDeviceController = async (req, res) => {
   try {
-    const {device_id,user_id,token,name} = req.body;
-    const data = await addDeviceService(device_id,token,user_id,name);
+    const {device_id,token,name} = req.body;
+    const data = await addDeviceService(device_id,token, req.userId, name);
     return successResponse(res, data, "Successfuly add new device", 201);
   } catch (error) {
     return errorResponse(res, error.message);

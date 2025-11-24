@@ -11,21 +11,18 @@ const __filename = fileURLToPath(import.meta.url);
 const currentDir = path.dirname(__filename);
 const __dirname = path.join(currentDir, "..", "..","..");
 
-// Get All Device
 export const getAllDevices = async () => {
   return await db.Device.findAll({
     order: [["createdAt", "DESC"]],
   });
 };
 
-// Get Device By Id
 export const getDeviceById = async (id) => {
   const device = await db.Device.findByPk(id);
   if (!device) throw new Error("Device not found");
   return device;
 };
 
-// Update Device
 export const updateDevice = async (id, payload) => {
   const device = await db.Device.findByPk(id);
   if (!device) throw new Error("Device not found");
@@ -33,12 +30,11 @@ export const updateDevice = async (id, payload) => {
   return device;
 };
 
-// Delete Device
 export const deleteDevice = async (id) => {
   const device = await db.Device.findByPk(id);
   if (!device) throw new Error("Device not found");
   await device.destroy();
-  return device;
+  return null;
 };
 
 export const registerDevice = async ({ type }) => {

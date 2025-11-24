@@ -9,8 +9,16 @@ export default function (sequelize) {
                 autoIncrement: true,
             },
             name: {
-                type:DataTypes.STRING(20),
+                type:DataTypes.STRING(50),
                 allowNull: false
+            },
+            actuator: {
+                type: DataTypes.JSON(),
+                allowNull: true
+            },
+            sensor: {
+                type: DataTypes.JSON(),
+                allowNull: true
             }
         }, {
             tableName:'types'
