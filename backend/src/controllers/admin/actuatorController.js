@@ -4,6 +4,9 @@ import * as ActuatorService from "./../../services/admin/actuatorService.js"
 export const index = async (req, res) => {
   try {
     const data = await ActuatorService.getAllActuator()
+    if(data.length == 0 ){
+      return successResponse(res, data, "Not found actuator",404)
+    }
     return successResponse(res, data, "Successfully retrieved all actuators")
   } catch (error) {
     return errorResponse(res, error.message, 500)
@@ -15,6 +18,9 @@ export const show = async (req, res) => {
   try {
     const { id } = req.params
     const data = await ActuatorService.getActuatorById(id)
+    if(data.length == 0 ){
+      return successResponse(res, data, "Not found actuator",404)
+    }
     return successResponse(res, data, "Successfully retrieved actuator")
   } catch (error) {
     return errorResponse(res, error.message, 404)

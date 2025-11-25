@@ -5,6 +5,9 @@ import { successResponse, errorResponse } from "../../utils/response.js"
 export const index = async (req, res) => {
   try {
     const data = await SensorService.getAllSensor()
+    if(data.length == 0 ){
+      return successResponse(res, data, "Not found sensor",404)
+    }
     return successResponse(res, data, "Successfully retrieved all sensors")
   } catch (error) {
     return errorResponse(res, error.message, 500)
@@ -16,6 +19,9 @@ export const show = async (req, res) => {
   try {
     const { id } = req.params
     const data = await SensorService.getSensorById(id)
+    if(data.length == 0 ){
+      return successResponse(res, data, "Not found sensor",404)
+    }
     return successResponse(res, data, "Successfully retrieved sensor")
   } catch (error) {
     return errorResponse(res, error.message, 404)

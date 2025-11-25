@@ -10,6 +10,9 @@ import {
 export const getAllUsersController = async (req, res) => {
   try {
     const data = await getAllUsers();
+    if(data.length == 0 ){
+      return successResponse(res, data, "Not found user",404)
+    }
     return successResponse(res, data, "Successfuly get all users");
   } catch (error) {
     return errorResponse(res, error.message);
@@ -18,6 +21,9 @@ export const getAllUsersController = async (req, res) => {
 export const getUserController = async (req, res) => {
   try {
     const data = await showUser(req.params.id);
+    if(data.length == 0 ){
+      return successResponse(res, data, "Not found user",404)
+    }
     return successResponse(res, data, "Successfuly get all users");
   } catch (error) {
     return errorResponse(res, error.message);
