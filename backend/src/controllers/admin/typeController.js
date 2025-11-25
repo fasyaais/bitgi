@@ -4,6 +4,9 @@ import { errorResponse, successResponse } from "../../utils/response.js"
 export const getAllTypes = async (req, res) => {
   try {
     const data = await TypeService.getAllTypes()
+    if(data.length == 0 ){
+      return successResponse(res, data, "Not found type",404)
+    }
     return successResponse(res, data, "Successfully retrieved all types")
   } catch (error) {
     return errorResponse(res, error.message, 500)
@@ -14,6 +17,9 @@ export const getTypeById = async (req, res) => {
   try {
     const { id } = req.params
     const data = await TypeService.getTypeById(id)
+    if(data.length == 0 ){
+      return successResponse(res, data, "Not found type",404)
+    }
     return successResponse(res, data, "Successfully retrieved type")
   } catch (error) {
     return errorResponse(res, error.message, 404)
