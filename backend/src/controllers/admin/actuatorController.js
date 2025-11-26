@@ -5,7 +5,7 @@ export const index = async (req, res) => {
   try {
     const data = await ActuatorService.getAllActuator()
     if(data.length == 0 ){
-      return successResponse(res, data, "Not found actuator",404)
+      return successResponse(res, data, "Not found actuator")
     }
     return successResponse(res, data, "Successfully retrieved all actuators")
   } catch (error) {
@@ -19,7 +19,7 @@ export const show = async (req, res) => {
     const { id } = req.params
     const data = await ActuatorService.getActuatorById(id)
     if(data.length == 0 ){
-      return successResponse(res, data, "Not found actuator",404)
+      return successResponse(res, data, "Not found actuator")
     }
     return successResponse(res, data, "Successfully retrieved actuator")
   } catch (error) {

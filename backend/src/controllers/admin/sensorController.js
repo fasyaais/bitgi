@@ -6,7 +6,7 @@ export const index = async (req, res) => {
   try {
     const data = await SensorService.getAllSensor()
     if(data.length == 0 ){
-      return successResponse(res, data, "Not found sensor",404)
+      return successResponse(res, data, "Not found sensor")
     }
     return successResponse(res, data, "Successfully retrieved all sensors")
   } catch (error) {
@@ -20,7 +20,7 @@ export const show = async (req, res) => {
     const { id } = req.params
     const data = await SensorService.getSensorById(id)
     if(data.length == 0 ){
-      return successResponse(res, data, "Not found sensor",404)
+      return successResponse(res, data, "Not found sensor")
     }
     return successResponse(res, data, "Successfully retrieved sensor")
   } catch (error) {
