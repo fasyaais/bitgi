@@ -22,7 +22,7 @@ export const getAllDevicesController = async (req, res) => {
   try {
     const data = await getAllDevices();
     if(data.length == 0 ){
-      return successResponse(res, data, "Not found device",404)
+      return successResponse(res, data, "Not found device")
     }
     return successResponse(res, data, "Successfuly get all devices");
   } catch (error) {
@@ -35,7 +35,7 @@ export const getDeviceByIdController = async (req, res) => {
   try {
     const data = await getDeviceById(req.params.id);
     if(data.length == 0 ){
-      return successResponse(res, data, "Not found device",404)
+      return successResponse(res, data, "Not found device")
     }
     return successResponse(res, data, "Successfuly get device by id");
   } catch (error) {

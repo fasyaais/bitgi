@@ -5,7 +5,7 @@ export const getAllDeviceUserController = async (req, res) => {
   try {
     const data = await getAllDeviceUser(req.userId);
     if(data.length == 0){
-        return successResponse(res, [],"Not found device",404);
+        return successResponse(res, [],"Not found device");
     }
     return successResponse(res, data, "Successfuly get all device user");
   } catch (error) {
@@ -17,7 +17,7 @@ export const getDeviceByIdController = async (req, res) => {
   try {
     const data = await getDeviceUser(req.params.id,req.userId);
     if(!data){
-        return successResponse(res,[],"Not found device",404)
+        return successResponse(res,[],"Not found device")
     }
     return successResponse(res, data, "Successfuly get device by id");
   } catch (error) {

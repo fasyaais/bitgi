@@ -5,7 +5,7 @@ export const getAllTypes = async (req, res) => {
   try {
     const data = await TypeService.getAllTypes()
     if(data.length == 0 ){
-      return successResponse(res, data, "Not found type",404)
+      return successResponse(res, data, "Not found type")
     }
     return successResponse(res, data, "Successfully retrieved all types")
   } catch (error) {
@@ -18,7 +18,7 @@ export const getTypeById = async (req, res) => {
     const { id } = req.params
     const data = await TypeService.getTypeById(id)
     if(data.length == 0 ){
-      return successResponse(res, data, "Not found type",404)
+      return successResponse(res, data, "Not found type")
     }
     return successResponse(res, data, "Successfully retrieved type")
   } catch (error) {
