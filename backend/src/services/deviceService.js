@@ -4,10 +4,22 @@ export const getAllDeviceUser = async (userId) => {
     return await db.Device.findAll({
         where:{user_id : userId},
         attributes : {exclude : ['token']},
-        include : {
-            model: db.Type,
-            as: "type",
-        }
+        include : [
+            {
+                model: db.Type,
+                as : "type",
+                attributes:{
+                    exclude: ['createdAt','updatedAt','id']
+                }
+            },
+            {
+                model: db.Schedule,
+                as : "schedules",
+                attributes:{
+                    exclude: ['createdAt','updatedAt','id','device_id']
+                }
+            },
+        ]
     });
 }
 
@@ -15,10 +27,22 @@ export const getDeviceUser= async (deviceId,userId) => {
     return await db.Device.findOne({
         where:{id:deviceId,user_id:userId},
         attributes: {exclude : ['token']},
-        include : {
-            model: db.Type,
-            as : "type"
-        }
+        include : [
+            {
+                model: db.Type,
+                as : "type",
+                attributes:{
+                    exclude: ['createdAt','updatedAt','id']
+                }
+            },
+            {
+                model: db.Schedule,
+                as : "schedules",
+                attributes:{
+                    exclude: ['createdAt','updatedAt','id','device_id']
+                }
+            },
+        ]
     });
 }
 
@@ -72,3 +96,4 @@ export const updateDeviceService = async (id,payload,userId) => {
         return error.message
     }
 }
+

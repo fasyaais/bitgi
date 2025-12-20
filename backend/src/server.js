@@ -18,6 +18,7 @@ const startServer = async () =>{
     const io = socketService.getIO();
     mqttService.io = io;
     mqttService.init();
+    app.set('mqttService',mqttService);
 
     server.listen(config.APP_PORT,()=>{
         console.log(`Server running on http://${config.APP_HOST+":"+config.APP_PORT}`);

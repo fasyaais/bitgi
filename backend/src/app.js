@@ -9,15 +9,19 @@ import config from "./config/index.js";
 import authRouter from "./routes/authRoute.js";
 
 import userDeviceRoute from "./routes/deviceRoute.js";
+import userScheduleRoute from "./routes/scheduleRoute.js";
 
 import adminDeviceRoute from "./routes/admin/deviceRoute.js";
 import adminUserRoute from "./routes/admin/userRoute.js";
 import adminActuatorRoute from "./routes/admin/actuatorRoute.js";
 import adminSensorRoute from "./routes/admin/sensorRoute.js";
 import adminTypeRoute from "./routes/admin/typeRoute.js";
+import adminScheduleRoute from "./routes/admin/scheduleRoute.js";
 
 import authMiddleware from "./middlewares/authMiddleware.js";
 import checkRoleMiddleware from "./middlewares/checkRoleMiddleware.js";
+import { getScheduleDevice } from "./services/scheduleService.js";
+import { errorResponse, successResponse } from "./utils/response.js";
 
 const app = express();
 
@@ -38,6 +42,18 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.post("/api/v1/schedule", async (req,res) => {
+  try {
+    const schedule = await getScheduleDevice(req.body.device_id, req.body.token)
+    if(!schedule){
+      return successResponse(res,[],"Schedule not found")
+    }
+    return successResponse(res,schedule)
+  } catch (error) {
+    return errorResponse(res,error.message)
+  }
+});
+
 app.use("/api/v1", authRouter);
 
 const privateRouter = express.Router();
@@ -47,6 +63,12 @@ privateRouter.use(
   "/user/devices",
   checkRoleMiddleware("user"),
   userDeviceRoute
+);
+
+privateRouter.use(
+  "/user/schedules",
+  checkRoleMiddleware("user"),
+  userScheduleRoute
 );
 
 
@@ -80,7 +102,12 @@ privateRouter.use(
   adminTypeRoute
 );
 
-app.use("/api/v1", privateRouter);
+privateRouter.use(
+  "/admin/schedules",
+  checkRoleMiddleware("admin"),
+  adminScheduleRoute
+);
 
+app.use("/api/v1", privateRouter);
 
 export default app;
