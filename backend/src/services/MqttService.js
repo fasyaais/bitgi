@@ -29,6 +29,7 @@ class MqttService {
                 const device = await db.Device.findByPk(deviceId);
                 if(!device){
                     console.log("[MQTT] Device not found ", deviceId);
+                    socket.emit("error", { message: "Device not found " + deviceId });
                 }
 
                 const userId = device.user_id;
@@ -48,7 +49,6 @@ class MqttService {
                 } else if(level == "actuator"){
                     this.io.to(`actuator:${deviceId}:${type}`).emit("actuator:status",basePayload);
                 }
-
                 console.log("[MQTT] forwarded topic ",topic);
             } catch (error) {
                 console.log("[MQTT] Error handling mqtt message ", error);
@@ -58,7 +58,7 @@ class MqttService {
 
     publishControl(deviceId, actuator,command){
         const topic = `device/${deviceId}/actuator/${actuator}/command`;
-        
+        this.client.publish(topic,JSON.stringify(command));
     }
 }
 
