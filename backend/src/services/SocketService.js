@@ -4,7 +4,7 @@ import db from "../models/index.js";
 import { verifyToken } from "../utils/jwtUtil.js";
 
 class SocketService {
-    constructor(httpServer){
+    constructor(httpServer, mqttService){
         this.io = new Server(httpServer,{
             cors : {
                 origin: ['*'],
@@ -12,6 +12,7 @@ class SocketService {
             },
         });
         this.userSockets = new Map();
+        this.mqttService = mqttService
     }
 
     init(){
