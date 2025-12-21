@@ -10,6 +10,7 @@ import authRouter from "./routes/authRoute.js";
 
 import userDeviceRoute from "./routes/deviceRoute.js";
 import userScheduleRoute from "./routes/scheduleRoute.js";
+import userSensorLogRoute from "./routes/sensorLogRoute.js";
 
 import adminDeviceRoute from "./routes/admin/deviceRoute.js";
 import adminUserRoute from "./routes/admin/userRoute.js";
@@ -71,6 +72,11 @@ privateRouter.use(
   userScheduleRoute
 );
 
+privateRouter.use(
+  "/user/logs",
+  checkRoleMiddleware("user"),
+  userSensorLogRoute
+);
 
 privateRouter.use(
   "/admin/devices",
