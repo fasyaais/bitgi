@@ -13,7 +13,7 @@ const startServer = async () =>{
     await connectDB()
     await db.sync();
     const mqttService = new MqttService(null);
-    const socketService = new SocketService(server);
+    const socketService = new SocketService(server,mqttService);
     socketService.init();
     const io = socketService.getIO();
     mqttService.io = io;
