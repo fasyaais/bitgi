@@ -29,7 +29,7 @@ class MqttService {
                 const device = await db.Device.findByPk(deviceId);
                 if(!device){
                     console.log("[MQTT] Device not found ", deviceId);
-                    socket.emit("error", { message: "Device not found " + deviceId });
+                    this.io.emit("error", { message: "Device not found " + deviceId });
                 }
 
                 const userId = device.user_id;
@@ -45,6 +45,12 @@ class MqttService {
                 this.io.to(`user:${userId}`).emit("sensor:update",basePayload);
                 this.io.to(`device:${deviceId}`).emit(`sensor:update`,basePayload);
                 if(level == "sensor") {
+                    db.SensorLog.create({
+                        device_id:deviceId,
+                        type,
+                        value: payload.value ?? payload.percent,
+                        raw: payload
+                    })
                     this.io.to(`sensor:${deviceId}:${type}`).emit("sensor:update",basePayload);
                 } else if(level == "actuator"){
                     this.io.to(`actuator:${deviceId}:${type}`).emit("actuator:status",basePayload);

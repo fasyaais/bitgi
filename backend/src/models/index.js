@@ -5,6 +5,7 @@ import User from "./User.js";
 import Sensor from "./Sensor.js";
 import Actuator from "./Actuator.js";
 import Schedule from "./Schedule.js";
+import SensorLog from "./SensorLog.js";
 
 const db = {};
 
@@ -14,6 +15,7 @@ db.Device = Device(sequelize);
 db.Sensor = Sensor(sequelize);
 db.Actuator = Actuator(sequelize);
 db.Schedule = Schedule(sequelize);
+db.SensorLog = SensorLog(sequelize);
 
 db.Device.belongsTo(db.Type, { 
     foreignKey: 'type_id',
@@ -25,6 +27,9 @@ db.User.hasMany(db.Device,{ foreignKey: 'user_id',as: "devices" });
 
 db.Schedule.belongsTo(db.Device, { foreignKey: 'device_id', as:"device" });
 db.Device.hasMany(db.Schedule, { foreignKey: 'device_id', as:"schedules" });
+
+db.SensorLog.belongsTo(db.Device,{ foreignKey: 'device_id',as:'device' });
+db.Device.hasMany(db.SensorLog,{foreignKey:'device_id', as:"logs"})
 
 db.sequelize = sequelize;
 
